@@ -1,0 +1,24 @@
+Essentials:
+
+Nmap: 
+1) nmap -sS -sV -Pn -oN network_services.txt 10.11.1.0/24
+
+2) 
+nmap -p 139,445 10.11.1.1-254 --script smb-os-discovery.nse -oG network_smb-scan.txt
+grep open network_smb-scan.txt |cut -d" " -f2 > network_SMB_IP-list.txt
+
+3)
+nmap -O -p 80 10.11.1.1-254 -oG network_web-sweep.txt
+grep open network_web-sweep.txt |cut -d " " -f2 > web_IP-list.txt
+
+
+Enum4Linux:
+./enum4linux_scan-range.sh network_SMB_IP-list.txt 
+
+
+Nikto:
+nikto -h web_IP-list.txt > nikto_web_vulnerabilities.txt
+
+
+SNMP-Check:
+snmp-check_automate.sh ip_list.txt 
