@@ -1,0 +1,12 @@
+Spawning a proper shell
+
+
+Proper shell:
+python -c 'import pty; pty.spawn("/bin/sh")'
+
+
+X-Term (for the "clear" command):
+export TERM=xterm
+
+
+

